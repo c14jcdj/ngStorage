@@ -121,6 +121,10 @@
 
                 // #6: Use `$window.addEventListener` instead of `angular.element` to avoid the jQuery-specific `event.originalEvent`
                 'localStorage' === storageType && $window.addEventListener && $window.addEventListener('storage', function(event) {
+                    if (!event.key) {
+                        return;
+                    }
+
                     if ('ngStorage-' === event.key.slice(0, 10)) {
                         event.newValue ? $storage[event.key.slice(10)] = angular.fromJson(event.newValue) : delete $storage[event.key.slice(10)];
 
